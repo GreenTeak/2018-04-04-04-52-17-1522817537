@@ -13,6 +13,7 @@ public class ReportCard {
     boolean add(Student stu){
         int size=students.size();
         students.add(stu);
+        System.out.print("学生"+stu.getName()+"的成绩被添加\n");
         return students.size()!=size;
     }
     void TypeScoreCard(){
@@ -33,6 +34,7 @@ public class ReportCard {
     }
     private List<Double> getStuScoreList(){
         List<Double> score=students.stream().map(Student::getTotalScore).collect(Collectors.toList());
+        return score;
     }
     public Double medianscore(){
         List<Double> scorelist=getStuScoreList();

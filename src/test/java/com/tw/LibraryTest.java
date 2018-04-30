@@ -10,7 +10,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class LibraryTest {
-    @Test
+    /*@Test
     public void testSomeLibraryMethod() {
         Library classUnderTest = new Library();
         assertTrue("someLibraryMethod should return 'true'", classUnderTest.someLibraryMethod());
@@ -27,6 +27,5 @@ public class LibraryTest {
 
         assertEquals(mockedList.get(0), value);
 
-    }
-
+    }*/
 }
