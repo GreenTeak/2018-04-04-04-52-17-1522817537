@@ -9,7 +9,7 @@ public class Library {
     public void mianView(){
         System.out.print("1.添加学生\n");
         System.out.print("2.生成成绩单\n");
-        System.out.print("退出\n");
+        System.out.print("3.退出\n");
         System.out.print("请输入你的选择（1~3）");
         Scanner sc=new Scanner(System.in);
         int choose=sc.nextInt();

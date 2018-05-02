@@ -28,18 +28,18 @@ public class ReportCard {
         System.out.print(medianscore()+"\n");
     }
     public double averagescore(){
-        List<Double> score=getStuScoreList();
+        List<Integer> score=getStuScoreList();
         DoubleSummaryStatistics status=score.stream().mapToDouble((x)->x).summaryStatistics();
         return status.getAverage();
     }
-    private List<Double> getStuScoreList(){
-        List<Double> score=students.stream().map(Student::getTotalScore).collect(Collectors.toList());
+    private List<Integer> getStuScoreList(){
+        List<Integer> score=students.stream().map(Student::getTotalScore).collect(Collectors.toList());
         return score;
     }
-    public Double medianscore(){
-        List<Double> scorelist=getStuScoreList();
+    public Integer medianscore(){
+        List<Integer> scorelist=getStuScoreList();
         int size=scorelist.size();
-        Double median=scorelist.stream().sorted()
+        Integer median=scorelist.stream().sorted()
                 .filter(s-> s.equals(size%2==0?(scorelist.get(size/2)+scorelist.get(size/2+1))/2:scorelist.get(size/2)))
                 .collect(Collectors.toList()).get(0);
         return median;
