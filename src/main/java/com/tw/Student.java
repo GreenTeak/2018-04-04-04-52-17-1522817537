@@ -27,8 +27,6 @@ public class Student {
         return sum.intValue();
     }
     void printStuInformation(){
-        //List<Integer> scorelist=getScoreList();
-        //String scoreString=String.join("|",(String[])scorelist.toArray());
         String[] list={"数学","语文","英语","编程"};
         List<String> printqueue=Arrays.asList(list);
         String scoreString=new String();
