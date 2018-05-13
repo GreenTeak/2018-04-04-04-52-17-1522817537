@@ -1,42 +1,71 @@
 package com.tw;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class ReportCard {
+    public static final String TRUE_TYPE_NUMBER="请按正确的格式输入要打印的学生的学号（格式： 学号, 学号,...），按回车提交：\n";
+    public static final String BE_TYPE_NUMBER="请输入要打印的学生的学号（格式：学号,学号,学号,...）,按回车键提交\n";
+    public static final String REPORT_TITLE="成绩单\n";
+    public static final String REPORT_ITEM_TITLE="姓名|数学|语文|英语|编程|平均分|总分\n";
+    public static final String DIVIDE_LINE="=====================\n";
+    public static final String AVERAGE_TITLE="全班总分平均数：";
+    public static final String MEDIAN_TITLE="全班总分中位数：";
+
     private List<Student> students;
+    private ScanerRead scanerRead;
+
     public ReportCard(){
+        scanerRead=new ScanerRead();
         students=new ArrayList<Student>();
     }
-   public boolean add(Student stu){
+
+    public void setsource(ScanerRead scanerRead){
+        this.scanerRead=scanerRead;
+    }
+
+    public boolean add(Student stu){
         int size=students.size();
         students.add(stu);
         System.out.print("学生"+stu.getName()+"的成绩被添加\n");
         return students.size()!=size;
     }
-    public List<String> getnextline(){
-        Scanner sc=new Scanner(System.in);
-        String choose=sc.nextLine();
-        String[] number=choose.split(",");
+
+    public List<String> getLine(){
+        String sc=scanerRead.read();
+        String[] number=sc.split(",");
         List<String> num= Arrays.asList(number);
         return num;
     }
-    public void TypeScoreCard(){
-        System.out.print("请输入要打印的学生的学号（格式：学号,学号,学号,...）,按回车键提交\n");
-        List<String> num=this.getnextline();
-        System.out.print("成绩单\n");
-        System.out.print("姓名|数学|语文|英语|编程|平均分|总分\n");
-        System.out.print("=====================\n");
-        //students.stream().forEach(Student::printStuInformation);
+    public List<String> isgetlinelegal(){//判断是不符合输入
+        int flag=1;
+        List<String> num=new ArrayList<>();
+        Pattern pattern = Pattern.compile("^\\d+$");
+        while (flag!=0){
+            flag=0;
+            num=getLine();
+            for(String i:num){
+                Matcher isNum = pattern.matcher(i);
+                if( !isNum.matches() ){
+                    flag=1;
+                    System.out.print(TRUE_TYPE_NUMBER);
+                }
+            }
+        }
+        return num;
+    }
+    public String TypeScoreCard(){//打印成绩单
+        String TypeScore=new String();
+        List<String> num=this.isgetlinelegal();
+        TypeScore+=BE_TYPE_NUMBER+REPORT_TITLE+REPORT_ITEM_TITLE+DIVIDE_LINE;
         for(String i:num){
             Student stu=students.stream().filter(x->x.getNumber()==Long.parseLong(i)).collect(Collectors.toList()).get(0);
-            stu.printStuInformation();
+            TypeScore+=stu.printStuInformation();
         }
-        System.out.print("=====================\n");
-        System.out.print("全班总分平均数：");
-        System.out.print(averagescore()+"\n");
-        System.out.print("全班总分中位数：");
-        System.out.print(medianscore()+"\n");
+        TypeScore+=DIVIDE_LINE+AVERAGE_TITLE+averagescore()+"\n"+MEDIAN_TITLE+medianscore()+"\n";
+        return TypeScore;
     }
     public Double averagescore(){
         List<Integer> score=getStuScoreList();

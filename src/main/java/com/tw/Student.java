@@ -26,14 +26,16 @@ public class Student {
         Long sum=status.getSum();
         return sum.intValue();
     }
-    void printStuInformation(){
+    public String printStuInformation(){
         String[] list={"数学","语文","英语","编程"};
         List<String> printqueue=Arrays.asList(list);
         String scoreString=new String();
         for (String str:list){
             scoreString+=score.get(str)+"|";
         }
-        System.out.print(this.name+"|"+scoreString+averagescore()+"|"+getTotalScore()+"\n");
+        String stuInfo=this.name+"|"+scoreString+averagescore()+"|"+getTotalScore()+"\n";
+        //System.out.print(this.name+"|"+scoreString+averagescore()+"|"+getTotalScore()+"\n");
+        return stuInfo;
     }
     public Map<String,Integer> scoregetScoreMap(){
         return score;

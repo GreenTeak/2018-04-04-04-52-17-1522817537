@@ -46,10 +46,10 @@ public class StudentTest {
         score.put("英语",80);
         score.put("编程",80);
         Student student=new Student("张三",1234890,score);
+
         ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
-        student.printStuInformation();
-        assertThat(outputStream.toString(),is("张三|75|95|80|80|82.5|330\n"));
-        //assertThat(systemOut().endWith("张三|75|95|80|80|82.5|330\n")).isTrue();
+        String result="张三|75|95|80|80|82.5|330\n";
+        assertEquals(student.printStuInformation(), result);
     }
 }
