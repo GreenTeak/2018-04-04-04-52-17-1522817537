@@ -32,7 +32,21 @@ public class ReportCard {
         System.out.print("学生"+stu.getName()+"的成绩被添加\n");
         return students.size()!=size;
     }
-
+    public boolean dealStuStringAndAdd(){
+        List<String> project=getLine();
+        if(project.size()<3) return false;
+        List<String> id=project.stream().skip(2)
+                .filter(x->x.equals(x.substring(0,x.indexOf(":")-1)))
+                .collect(Collectors.toList());
+        List<Integer> number=project.stream().skip(2)
+                .filter(x->x.equals(x.substring(x.indexOf(":")+1,x.length()-1)))
+                .map((x)->Integer.valueOf(x))
+                .collect(Collectors.toList());
+        Map<String,Integer> score=new HashMap<>();
+        for(int i=0;i<id.size();i++) score.put(id.get(i),number.get(i));
+        boolean isadd=add(new Student(project.get(0),Long.parseLong(project.get(1)),score));
+        return isadd;
+    }
     public List<String> getLine(){
         String sc=scanerRead.read();
         String[] number=sc.split(",");

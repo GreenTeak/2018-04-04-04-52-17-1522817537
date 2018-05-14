@@ -29,14 +29,14 @@ public class ReportCardTest {
         System.setOut(new PrintStream(outContent));
         mockSource = mock(ScanerRead.class);
 
-        score1.put("数学", 75);
-        score1.put("语文", 95);
-        score1.put("英语", 80);
-        score1.put("编程", 80);
-        score2.put("数学", 85);
-        score2.put("语文", 80);
-        score2.put("英语", 70);
-        score2.put("编程", 90);
+        score1.put("数学",75);
+        score1.put("语文",95);
+        score1.put("英语",80);
+        score1.put("编程",80);
+        score2.put("数学",85);
+        score2.put("语文",80);
+        score2.put("英语",70);
+        score2.put("编程",90);
     }
     @Test
     public void testAddstu() {
@@ -44,7 +44,6 @@ public class ReportCardTest {
         ReportCard reportCard = new ReportCard();
         assertTrue(reportCard.add(student1));
     }
-
     @Test
     public void testAveragescore() {
         Student student1 = new Student("张三", 1234890, score1);
@@ -95,7 +94,15 @@ public class ReportCardTest {
         String selectnum="1234890";
         reportCard.setsource(mockSource);
         when(mockSource.read()).thenReturn(selectnum);
-
-
+        String result=reportCard.BE_TYPE_NUMBER+reportCard.REPORT_TITLE+reportCard.REPORT_ITEM_TITLE+reportCard.DIVIDE_LINE
+                  +"张三|75|95|80|80|82.5|330\n"+reportCard.DIVIDE_LINE+reportCard.AVERAGE_TITLE+"327.5\n"+reportCard.MEDIAN_TITLE+"327.5\n";
+        assertEquals(reportCard.TypeScoreCard(),result);
+    }
+    @Test
+    public void testdealStuStringAndAdd(){
+        String selectnum="李四,1234891,数学:75,语文:95,英语:80,编程:80";
+        reportCard.setsource(mockSource);
+        when(mockSource.read()).thenReturn(selectnum);
+        assertTrue(reportCard.dealStuStringAndAdd());
     }
 }
